@@ -1,14 +1,15 @@
 package com.br.provafundacred.entity;
 
-
-import jdk.jfr.DataAmount;
-
 import javax.persistence.*;
+
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,5 +21,14 @@ public class Usuario {
     private Integer id;
     private String name;
     private String email;
+    private String password;
+    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime modified;
+    private LocalDateTime last_login;
+    private String token;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Phone> phone;
 
 }
+
