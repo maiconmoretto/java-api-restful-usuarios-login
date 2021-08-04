@@ -3,7 +3,7 @@ package com.br.provafundacred.service;
 import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.repository.UsuarioRepository;
-import com.br.provafundacred.request.UsuarioRequest;
+//import com.br.provafundacred.request.UsuarioRequest;
 import com.br.provafundacred.request.UsuarioUpdateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,11 +18,32 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
-  @Autowired
+    @Autowired
     private UsuarioRepository repository;
 
     public List<Usuario> listAll() {
-        return repository.findAll();
+
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+
+        List<Phone> phones = new ArrayList<Phone>();
+
+        repository.findAll().stream().forEach(usuario -> {
+
+            usuario.getPhone().stream().forEach(p -> {
+                Phone novoPhone = new Phone();
+                novoPhone.setNumber(p.getNumber());
+                novoPhone.setDdd(p.getDdd());
+                phones.add(novoPhone);
+            });
+            Usuario novoUsuario = new Usuario();
+            usuario.setId(usuario.getId());
+            usuario.setName(usuario.getName());
+            usuario.setEmail(usuario.getEmail());
+            usuario.setPhone(phones);
+            usuarios.add(usuario);
+        });
+
+        return usuarios;
     }
 
 
@@ -33,7 +54,8 @@ public class UsuarioService {
         List<Phone> phoneList = new ArrayList<Phone>();
 
         request.getPhone().stream().forEach(p -> {
-            Phone phone= new Phone();
+            Phone phone = new Phone();
+            phone.setId(p.getId());
             phone.setDdd(p.getDdd());
             phone.setNumber(p.getNumber());
             phoneList.add(phone);

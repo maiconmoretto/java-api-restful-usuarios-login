@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class Phone {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer number;
     private Integer ddd;

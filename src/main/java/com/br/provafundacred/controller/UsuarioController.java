@@ -20,7 +20,7 @@ public class UsuarioController {
 
     //@ApiOperation(value = "It will return list of Usuario")
     @GetMapping
-    public List<Usuario> viewAllUsuarios() {
+    public List<Usuario> listAll() {
         return service.listAll();
     }
 
