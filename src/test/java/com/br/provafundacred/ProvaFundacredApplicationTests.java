@@ -1,13 +1,12 @@
 package com.br.provafundacred;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootTest
-class ProvaFundacredApplicationTests {
+@SpringBootApplication
+public class ProvaFundacredApplicationTests {
 
-	@Test
-	void contextLoads() {
+	public static void main(String[] args) {
+		SpringApplication.run(ProvaFundacredApplication.class, args);
 	}
-
 }

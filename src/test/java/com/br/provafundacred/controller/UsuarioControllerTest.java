@@ -20,10 +20,16 @@ public class UsuarioControllerTest {
     @Autowired
     private MockMvc mvc;
 
-/*    @Test
-    public void getHello() throws Exception {
+    @Test
+    public void findAll() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Greetings from Spring Boot!")));
+                .andExpect(status().isOk());
+    }
+
+/*    @Test
+    public void create() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/")
+                .content().accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }*/
 }
