@@ -1,8 +1,10 @@
 package com.br.provafundacred.controller;
 
+import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Usuario;
 //import com.br.provafundacred.request.UsuarioRequest;
 //import com.br.provafundacred.request.UsuarioRequest;
+import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.request.UsuarioUpdateRequest;
 import com.br.provafundacred.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,18 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
+    @Autowired
+    private PhoneRepository phoneRepository;
+
     //@ApiOperation(value = "It will return list of Usuario")
     @GetMapping
     public List<Usuario> listAll() {
         return service.listAll();
+    }
+
+    @GetMapping("/list-all-phones")
+    public List<Phone> listAllPhones() {
+        return phoneRepository.findAll();
     }
 
    // @ApiOperation(value = "It will add new Usuario")

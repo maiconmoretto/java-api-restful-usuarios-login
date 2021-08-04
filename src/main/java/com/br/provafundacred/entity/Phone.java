@@ -18,7 +18,6 @@ public class Phone {
     private Integer ddd;
 
     @ManyToOne
-    @JoinColumn(name = "phone_id")
     private Usuario usuario;
 
 }

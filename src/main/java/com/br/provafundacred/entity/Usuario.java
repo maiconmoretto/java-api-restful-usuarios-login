@@ -27,7 +27,7 @@ public class Usuario {
     private LocalDateTime last_login;
     private String token;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany
     private List<Phone> phone;
 
 }

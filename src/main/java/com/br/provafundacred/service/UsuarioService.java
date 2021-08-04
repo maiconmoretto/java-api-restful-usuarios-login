@@ -2,6 +2,7 @@ package com.br.provafundacred.service;
 
 import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Usuario;
+import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
 //import com.br.provafundacred.request.UsuarioRequest;
 import com.br.provafundacred.request.UsuarioUpdateRequest;
@@ -21,16 +22,21 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
+    @Autowired
+    private PhoneRepository phoneRepository;
+
     public List<Usuario> listAll() {
 
         List<Usuario> usuarios = new ArrayList<Usuario>();
 
-        List<Phone> phones = new ArrayList<Phone>();
+
 
         repository.findAll().stream().forEach(usuario -> {
+            List<Phone> phones = new ArrayList<Phone>();
 
             usuario.getPhone().stream().forEach(p -> {
                 Phone novoPhone = new Phone();
+                novoPhone.setId(p.getId());
                 novoPhone.setNumber(p.getNumber());
                 novoPhone.setDdd(p.getDdd());
                 phones.add(novoPhone);
@@ -59,6 +65,7 @@ public class UsuarioService {
             phone.setDdd(p.getDdd());
             phone.setNumber(p.getNumber());
             phoneList.add(phone);
+            phoneRepository.save(phone);
         });
 
         usuario.setPhone(phoneList);
