@@ -23,13 +23,11 @@ public class UsuarioService {
     private UsuarioRepository repository;
 
     @Autowired
-    private PhoneRepository phoneRepository;
+    private PhoneService phoneService;
 
     public List<Usuario> listAll() {
 
         List<Usuario> usuarios = new ArrayList<Usuario>();
-
-
 
         repository.findAll().stream().forEach(usuario -> {
             List<Phone> phones = new ArrayList<Phone>();
@@ -65,7 +63,7 @@ public class UsuarioService {
             phone.setDdd(p.getDdd());
             phone.setNumber(p.getNumber());
             phoneList.add(phone);
-            phoneRepository.save(phone);
+            phoneService.create(phone);
         });
 
         usuario.setPhone(phoneList);
