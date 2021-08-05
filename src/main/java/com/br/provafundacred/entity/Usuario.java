@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -25,7 +26,7 @@ public class Usuario {
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime modified;
     private LocalDateTime last_login;
-    private String token;
+    private UUID token;
 
     @OneToMany
     private List<Phone> phone;

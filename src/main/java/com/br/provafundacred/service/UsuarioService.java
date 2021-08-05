@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -55,6 +56,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
         usuario.setName(request.getName());
+        usuario.setLast_login(LocalDateTime.now());
         List<Phone> phoneList = new ArrayList<Phone>();
 
         request.getPhone().stream().forEach(p -> {
@@ -66,6 +68,7 @@ public class UsuarioService {
             phoneService.create(phone);
         });
 
+        usuario.setToken(UUID.randomUUID());
         usuario.setPhone(phoneList);
         usuario.setPassword(request.getPassword());
 
