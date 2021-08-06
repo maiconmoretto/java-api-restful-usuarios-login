@@ -5,6 +5,7 @@ import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
 //import com.br.provafundacred.request.UsuarioRequest;
+import com.br.provafundacred.request.LoginRequest;
 import com.br.provafundacred.request.UsuarioUpdateRequest;
 import javassist.bytecode.stackmap.TypeData;
 import org.slf4j.Logger;
@@ -78,25 +79,9 @@ public class UsuarioService {
         return repository.save(usuario);
     }
 
- /*
-    public Usuario listById(Long id) {
-        return repository.findById(id).get();
+    public Usuario login(LoginRequest request) {
+        return repository.findByEmailSenha(request.getEmail(), request.getPassword());
     }
 
-    public Usuario updateUsuario(UsuarioUpdateRequest request) {
-        Usuario usuario = new Usuario();
-        usuario.setModified(LocalDateTime.now());
-        usuario.setEmail(request.getEmail());
-        usuario.setId(request.getId());
-        usuario.setName(request.getName());
-        usuario.setPhones(request.getPhones());
-        usuario.setPassword(request.getPassword());
-
-        return repository.save(usuario);
-    }
-
-    public void deleteUsuario(Long id) {
-        repository.deleteById(id);
-    }*/
 
 }

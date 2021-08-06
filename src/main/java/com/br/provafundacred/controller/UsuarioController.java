@@ -6,6 +6,7 @@ import com.br.provafundacred.entity.Usuario;
 //import com.br.provafundacred.request.UsuarioRequest;
 import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
+import com.br.provafundacred.request.LoginRequest;
 import com.br.provafundacred.request.UsuarioUpdateRequest;
 import com.br.provafundacred.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,12 @@ public class UsuarioController {
         }
 
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/login")
+    public HttpEntity<? extends Object> login(@RequestBody LoginRequest request) {
+        return new ResponseEntity<Usuario>(service.login(request), HttpStatus.OK);
     }
 
 }

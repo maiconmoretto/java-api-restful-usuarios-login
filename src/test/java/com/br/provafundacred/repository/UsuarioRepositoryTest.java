@@ -38,7 +38,7 @@ public class UsuarioRepositoryTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
+/*    @Test
     public void findAll() {
         List<Usuario> mockList = Mockito.mock(ArrayList.class);
         Usuario usuario = new Usuario();
@@ -52,7 +52,7 @@ public class UsuarioRepositoryTest {
 
         Mockito.when(mockList.size()).thenReturn(100);
         assertEquals(100, mockList.size());
-    }
+    }*/
 /*
     @Test
     public void findAll() {
