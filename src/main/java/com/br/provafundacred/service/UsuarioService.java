@@ -80,8 +80,12 @@ public class UsuarioService {
     }
 
     public Usuario login(LoginRequest request) {
-        return repository.findByEmailSenha(request.getEmail(), request.getPassword());
+        return  repository.findByEmailSenha(request.getEmail(), request.getPassword());
     }
 
 
+    public boolean emailAndPasswordExist(Usuario request) {
+        List<Usuario> usuarioExiste = repository.findAll().stream().filter(u -> u.getEmail().equalsIgnoreCase(request.getEmail())).collect(Collectors.toList());
+        return usuarioExiste.isEmpty() ? false : true;
+    }
 }

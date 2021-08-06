@@ -44,9 +44,7 @@ public class UsuarioController {
    // @ApiOperation(value = "It will add new Usuario")
     @PostMapping
     public HttpEntity<? extends Object> create(@RequestBody Usuario request) throws Exception {
-        List<Usuario> usuarioExiste = usuarioRepository.findAll().stream().filter(u -> u.getEmail().equalsIgnoreCase(request.getEmail())).collect(Collectors.toList());
-        if(usuarioExiste.size() > 0) {
-
+        if(service.emailAndPasswordExist(request)) {
             return new ResponseEntity<String>("E-mail já existente.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
@@ -56,6 +54,14 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public HttpEntity<? extends Object> login(@RequestBody LoginRequest request) {
+        Usuario usuario = new Usuario();
+        usuario.setEmail(request.getEmail());
+        usuario.setPassword(request.getPassword());
+
+        if(!service.emailAndPasswordExist(usuario)) {
+            return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.FORBIDDEN);
+        }
+
         return new ResponseEntity<Usuario>(service.login(request), HttpStatus.OK);
     }
 
