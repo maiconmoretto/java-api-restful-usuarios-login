@@ -1,3 +1,4 @@
+/*
 package com.br.provafundacred.repository;
 
 import com.br.provafundacred.ProvaFundacredApplication;
@@ -38,6 +39,7 @@ public class UsuarioRepositoryTest {
         MockitoAnnotations.openMocks(this);
     }
 
+*/
 /*    @Test
     public void findAll() {
         List<Usuario> mockList = Mockito.mock(ArrayList.class);
@@ -52,7 +54,9 @@ public class UsuarioRepositoryTest {
 
         Mockito.when(mockList.size()).thenReturn(100);
         assertEquals(100, mockList.size());
-    }*/
+    }*//*
+
+*/
 /*
     @Test
     public void findAll() {
@@ -107,6 +111,8 @@ public class UsuarioRepositoryTest {
         when(repository.findById(1L)).thenReturn(category);
         Optional<Usuario> result = repository.findById(1L);
         assertEquals("name a", result.get().getName());
-    }*/
+    }*//*
+
 
 }
+*/
