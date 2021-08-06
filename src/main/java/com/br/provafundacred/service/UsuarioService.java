@@ -6,6 +6,9 @@ import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
 //import com.br.provafundacred.request.UsuarioRequest;
 import com.br.provafundacred.request.UsuarioUpdateRequest;
+import javassist.bytecode.stackmap.TypeData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -26,8 +29,9 @@ public class UsuarioService {
     @Autowired
     private PhoneService phoneService;
 
-    public List<Usuario> listAll() {
+    private static final Logger LOG =   LoggerFactory.getLogger(TypeData.ClassName.class);
 
+    public List<Usuario> listAll() {
         List<Usuario> usuarios = new ArrayList<Usuario>();
 
         repository.findAll().stream().forEach(usuario -> {
@@ -51,8 +55,7 @@ public class UsuarioService {
         return usuarios;
     }
 
-
-    public Usuario create(Usuario request) {
+    public Usuario create(Usuario request) throws Exception {
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
         usuario.setName(request.getName());
