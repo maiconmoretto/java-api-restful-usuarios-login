@@ -85,7 +85,13 @@ public class UsuarioService {
 
 
     public boolean emailAndPasswordExist(Usuario request) {
-        List<Usuario> usuarioExiste = repository.findAll().stream().filter(u -> u.getEmail().equalsIgnoreCase(request.getEmail())).collect(Collectors.toList());
-        return usuarioExiste.isEmpty() ? false : true;
+        Usuario usuarioExiste = repository.findByEmailSenha(request.getEmail(), request.getPassword());
+        return usuarioExiste == null ? false : true;
+    }
+
+    public boolean emailExist(String email) {
+        Usuario usuarioExiste =  repository.findByEmail(email);
+        return usuarioExiste == null ? false : true;
+
     }
 }
