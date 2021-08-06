@@ -52,24 +52,4 @@ public class UsuarioController {
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }
 
-/*
-    @GetMapping("/{id}")
-    public Usuario listById(@PathVariable Long id) {
-        return service.listById(id);
-    }
-
-    //@ApiOperation(value = "It will update Usuario")
-    @PutMapping("/{id}")
-    public Usuario updateUsuario(@PathVariable Integer id, @RequestBody UsuarioUpdateRequest request) {
-        UsuarioUpdateRequest usuarioUpdateRequest = new UsuarioUpdateRequest();
-        usuarioUpdateRequest.setId(id);
-        return service.updateUsuario(usuarioUpdateRequest);
-    }
-
-    //@ApiOperation(value = "It will delete  Usuario")
-    @DeleteMapping("/{id}")
-    public void deleteUsuario(@PathVariable Long id) {
-        service.deleteUsuario(id);
-    }*/
-
 }
