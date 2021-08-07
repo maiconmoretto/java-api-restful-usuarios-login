@@ -58,12 +58,12 @@ public class UsuarioController {
         usuario.setEmail(request.getEmail());
         usuario.setPassword(request.getPassword());
 
-        if(!service.emailAndPasswordExist(usuario)) {
-            return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.FORBIDDEN);
-        }
-
         if(!service.emailExist(request.getEmail())) {
             return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.UNAUTHORIZED);
+        }
+
+        if(!service.emailAndPasswordExist(usuario)) {
+            return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.FORBIDDEN);
         }
 
         return new ResponseEntity<Usuario>(service.login(request), HttpStatus.OK);

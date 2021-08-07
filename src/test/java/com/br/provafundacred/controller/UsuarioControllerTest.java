@@ -142,4 +142,75 @@ public class UsuarioControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.created").exists());
     }
+
+    @Test
+    public void loginDeveRetornarErroForbidden() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setEmail("joao@joao.com");
+        usuario.setName("joao");
+        usuario.setPassword("123456");
+        List<Phone> phoneList = new ArrayList<>();
+        Phone phone = new Phone();
+        phone.setDdd(051);
+        phone.setNumber(999999999);
+        phoneList.add(phone);
+        usuario.setPhone(phoneList);
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("joao@joao.com");
+        loginRequest.setPassword("1234567");
+
+        mvc.perform(MockMvcRequestBuilders.post("/").content(asJsonString(usuario))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phone").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.token").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.last_login").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.password").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").exists());
+
+
+        mvc.perform(MockMvcRequestBuilders.post("/login").content(asJsonString(loginRequest))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void loginDeveRetornarErroBadRequest() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setEmail("joao@joao.com");
+        usuario.setName("joao");
+        usuario.setPassword("123456");
+        List<Phone> phoneList = new ArrayList<>();
+        Phone phone = new Phone();
+        phone.setDdd(051);
+        phone.setNumber(999999999);
+        phoneList.add(phone);
+        usuario.setPhone(phoneList);
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("joao@jo1ao.com");
+        loginRequest.setPassword("123456");
+
+        mvc.perform(MockMvcRequestBuilders.post("/").content(asJsonString(usuario))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phone").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.token").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.last_login").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.password").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").exists());
+
+
+        mvc.perform(MockMvcRequestBuilders.post("/login").content(asJsonString(loginRequest))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized()
+                );
+    }
 }
