@@ -23,7 +23,7 @@ public class Usuario {
     private String name;
     private String email;
     private String password;
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created;
     private LocalDateTime modified;
     private LocalDateTime last_login;
     private UUID token;

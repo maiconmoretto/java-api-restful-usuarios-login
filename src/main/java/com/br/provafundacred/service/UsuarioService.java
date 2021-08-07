@@ -60,6 +60,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
         usuario.setName(request.getName());
+        usuario.setCreated(LocalDateTime.now());
         usuario.setLast_login(LocalDateTime.now());
         List<Phone> phoneList = new ArrayList<Phone>();
 
