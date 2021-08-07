@@ -95,7 +95,7 @@ public class UsuarioControllerTest {
                         .content(asJsonString(loginRequest))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     public static String asJsonString(final Object obj) {
@@ -233,7 +233,7 @@ public class UsuarioControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.post("/login").content(asJsonString(loginRequest))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized()
+                .andExpect(status().isForbidden()
                 );
     }
 }
