@@ -26,7 +26,7 @@ public class Usuario {
     private LocalDateTime created;
     private LocalDateTime modified;
     private LocalDateTime last_login;
-    private UUID token;
+    private String token;
 
     @OneToMany
     private List<Phone> phone;

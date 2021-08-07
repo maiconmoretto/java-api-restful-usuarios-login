@@ -60,11 +60,17 @@ public class UsuarioService {
     }
 
     public Usuario create(Usuario request) throws Exception {
-        MessageDigest m=MessageDigest.getInstance("MD5");
+        MessageDigest m= MessageDigest.getInstance("MD5");
         m.update(request.getPassword().getBytes(),0,request.getPassword().length());
 
         String password = new BigInteger(1,m.digest()).toString(16);
         System.out.println("MD5: "+ password);
+
+
+        MessageDigest mToken= MessageDigest.getInstance("MD5");
+        mToken.update(UUID.randomUUID().toString().getBytes(),0,request.getPassword().length());
+        String token = new BigInteger(1,mToken.digest()).toString(16);
+        System.out.println("token md5 : "+ token);
        // Log.info("MD " + password);
 
         Usuario usuario = new Usuario();
@@ -83,7 +89,7 @@ public class UsuarioService {
             phoneService.create(phone);
         });
 
-        usuario.setToken(UUID.randomUUID());
+        usuario.setToken(token);
         usuario.setPhone(phoneList);
         usuario.setPassword(password);
 
@@ -108,5 +114,9 @@ public class UsuarioService {
 
     public void deleteAll() {
         repository.deleteAll();
+    }
+
+    public boolean tokenExist(String authorizationHeader) {
+        return repository.findByToken(authorizationHeader) == null ? false : true;
     }
 }
