@@ -2,7 +2,9 @@
 package com.br.provafundacred.repository;
 
 import com.br.provafundacred.ProvaFundacredApplication;
+import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Usuario;
+import com.br.provafundacred.request.LoginRequest;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
@@ -43,9 +45,14 @@ public class UsuarioRepositoryTest {
     public void findAll() {
         List<Usuario> mockList = Mockito.mock(ArrayList.class);
         Usuario usuario = new Usuario();
-        usuario.setName("name a");
-        usuario.setEmail("setEmail a");
-        usuario.setPassword("password a");
+       usuario.setEmail("joao@joao.com");
+       usuario.setName("joao");
+       usuario.setPassword("123456");
+       List<Phone> phoneList = new ArrayList<>();
+       Phone phone = new Phone();
+       phone.setDdd(051);
+       phone.setNumber(999999999);
+       phoneList.add(phone);
         usuario.setId(1);
         mockList.add(usuario);
         Mockito.verify(mockList).add(usuario);
@@ -59,9 +66,39 @@ public class UsuarioRepositoryTest {
     public void criarUsuario() {
         List<Usuario> mockList = Mockito.mock(ArrayList.class);
         Usuario usuario = new Usuario();
-        usuario.setName("name a");
-        usuario.setEmail("setEmail a");
-        usuario.setPassword("password a");
+        usuario.setEmail("joao@joao.com");
+        usuario.setName("joao");
+        usuario.setPassword("123456");
+        List<Phone> phoneList = new ArrayList<>();
+        Phone phone = new Phone();
+        phone.setDdd(051);
+        phone.setNumber(999999999);
+        phoneList.add(phone);
+        usuario.setId(1);
+        mockList.add(usuario);
+        Mockito.verify(mockList).add(usuario);
+        assertEquals(0, mockList.size());
+
+        Mockito.when(mockList.size()).thenReturn(1);
+        assertEquals(1, mockList.size());
+    }
+
+    @Test
+    public void login() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setPassword("123456");
+        loginRequest.setEmail("joao@joao.com");
+
+        List<Usuario> mockList = Mockito.mock(ArrayList.class);
+        Usuario usuario = new Usuario();
+        usuario.setEmail("joao@joao.com");
+        usuario.setName("joao");
+        usuario.setPassword("123456");
+        List<Phone> phoneList = new ArrayList<>();
+        Phone phone = new Phone();
+        phone.setDdd(051);
+        phone.setNumber(999999999);
+        phoneList.add(phone);
         usuario.setId(1);
         mockList.add(usuario);
         Mockito.verify(mockList).add(usuario);
@@ -69,9 +106,6 @@ public class UsuarioRepositoryTest {
         Mockito.when(mockList.size()).thenReturn(1);
         assertEquals(1, mockList.size());
     }
-
-
-
 
 }
 
