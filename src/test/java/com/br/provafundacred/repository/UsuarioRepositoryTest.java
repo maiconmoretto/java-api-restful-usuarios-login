@@ -1,4 +1,4 @@
-/*
+
 package com.br.provafundacred.repository;
 
 import com.br.provafundacred.ProvaFundacredApplication;
@@ -39,8 +39,7 @@ public class UsuarioRepositoryTest {
         MockitoAnnotations.openMocks(this);
     }
 
-*/
-/*    @Test
+   @Test
     public void findAll() {
         List<Usuario> mockList = Mockito.mock(ArrayList.class);
         Usuario usuario = new Usuario();
@@ -54,65 +53,25 @@ public class UsuarioRepositoryTest {
 
         Mockito.when(mockList.size()).thenReturn(100);
         assertEquals(100, mockList.size());
-    }*//*
+    }
 
-*/
-/*
     @Test
-    public void findAll() {
+    public void criarUsuario() {
+        List<Usuario> mockList = Mockito.mock(ArrayList.class);
         Usuario usuario = new Usuario();
         usuario.setName("name a");
         usuario.setEmail("setEmail a");
         usuario.setPassword("password a");
         usuario.setId(1);
+        mockList.add(usuario);
+        Mockito.verify(mockList).add(usuario);
 
-        List<Usuario> usuarioList = new ArrayList<Usuario>();
-        usuarioList.add(usuario);
-        //when(repository.findAll()).thenReturn(usuarioList);
-        Mockito.when(repository.findAll()).thenReturn(usuarioList);
-        List<Usuario> result = repository.findAll();
-        assertEquals(1,1);
-        //assertEquals(3, result.size());
+        Mockito.when(mockList.size()).thenReturn(1);
+        assertEquals(1, mockList.size());
     }
 
-    @Test
-    public void deleteById() {
-        repository.deleteById(1L);
-        verify(repository, times(1)).deleteById(1L);
-    }
 
-    @Test
-    public void save() {
-        Usuario usuario = new Usuario();
-        usuario.setName("name a");
-        usuario.setEmail("setEmail a");
-        usuario.setPassword("password a");
-        usuario.setId(1);
-        when(repository.save(usuario)).thenReturn(usuario);
-        Usuario result = repository.save(usuario);
-        assertEquals("name a", result.getName());
-    }
-
-    @Test
-    public void update() {
-        Usuario usuario = new Usuario();
-        usuario.setName("name a");
-        usuario.setEmail("setEmail a");
-        usuario.setPassword("password a");
-        usuario.setId(1);
-        when(repository.save(usuario)).thenReturn(usuario);
-        Usuario result = repository.save(usuario);
-        assertEquals("name a", result.getName());
-    }
-
-    @Test
-    public void findById() {
-        Optional<Usuario> category = Optional.of(new Usuario());
-        when(repository.findById(1L)).thenReturn(category);
-        Optional<Usuario> result = repository.findById(1L);
-        assertEquals("name a", result.get().getName());
-    }*//*
 
 
 }
-*/
+
