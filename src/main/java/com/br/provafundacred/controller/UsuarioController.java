@@ -44,8 +44,8 @@ public class UsuarioController {
    // @ApiOperation(value = "It will add new Usuario")
     @PostMapping
     public HttpEntity<? extends Object> create(@RequestBody Usuario request) throws Exception {
-        if(service.emailAndPasswordExist(request)) {
-            return new ResponseEntity<String>("E-mail já existente.", HttpStatus.UNPROCESSABLE_ENTITY);
+        if(service.emailExist(request.getEmail())) {
+            return new ResponseEntity<String>("E-mail já existente.", HttpStatus.FORBIDDEN);
         }
 
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
@@ -59,7 +59,7 @@ public class UsuarioController {
         usuario.setPassword(request.getPassword());
 
         if(!service.emailExist(request.getEmail())) {
-            return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.FORBIDDEN);
         }
 
         if(!service.emailAndPasswordExist(usuario)) {
