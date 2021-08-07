@@ -5,6 +5,7 @@ import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.internal.jline.internal.Log;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +37,15 @@ public class UsuarioControllerTest {
 
     @Test
     public void criarUsuarioSucesso() throws Exception {
+        MessageDigest m=MessageDigest.getInstance("MD5");
+        m.update("123456".getBytes(),0,"123456".length());
+
+        String password = new BigInteger(1,m.digest()).toString(16);
+
         Usuario usuario = new Usuario();
         usuario.setEmail("joao@joao.com");
         usuario.setName("joao");
+        usuario.setPassword(password);
         List<Phone> phoneList = new ArrayList<>();
         Phone phone = new Phone();
         phone.setDdd(051);
@@ -110,6 +120,11 @@ public class UsuarioControllerTest {
 
     @Test
     public void loginSucesso() throws Exception {
+        MessageDigest m=MessageDigest.getInstance("MD5");
+        m.update("123456".getBytes(),0,"123456".length());
+
+        String password = new BigInteger(1,m.digest()).toString(16);
+
         Usuario usuario = new Usuario();
         usuario.setEmail("joao@joao.com");
         usuario.setName("joao");
@@ -123,7 +138,7 @@ public class UsuarioControllerTest {
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("joao@joao.com");
-        loginRequest.setPassword("123456");
+        loginRequest.setPassword(password);
 
         mvc.perform(MockMvcRequestBuilders.post("/").content(asJsonString(usuario))
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))

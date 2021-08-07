@@ -8,6 +8,7 @@ import com.br.provafundacred.repository.UsuarioRepository;
 import com.br.provafundacred.request.LoginRequest;
 import com.br.provafundacred.request.UsuarioUpdateRequest;
 import javassist.bytecode.stackmap.TypeData;
+import jdk.internal.jline.internal.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,13 @@ public class UsuarioService {
     }
 
     public Usuario create(Usuario request) throws Exception {
+        MessageDigest m=MessageDigest.getInstance("MD5");
+        m.update(request.getPassword().getBytes(),0,request.getPassword().length());
+
+        String password = new BigInteger(1,m.digest()).toString(16);
+        System.out.println("MD5: "+ password);
+       // Log.info("MD " + password);
+
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
         usuario.setName(request.getName());
@@ -75,7 +85,7 @@ public class UsuarioService {
 
         usuario.setToken(UUID.randomUUID());
         usuario.setPhone(phoneList);
-        usuario.setPassword(request.getPassword());
+        usuario.setPassword(password);
 
         return repository.save(usuario);
     }
