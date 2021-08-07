@@ -5,6 +5,7 @@ import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,6 +23,13 @@ public class UsuarioControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @AfterEach
+    public void destroyAll() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.delete("/")
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
     @Test
     public void criarUsuarioSucesso() throws Exception {
@@ -77,7 +85,7 @@ public class UsuarioControllerTest {
                         .content(asJsonString(loginRequest))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     public static String asJsonString(final Object obj) {

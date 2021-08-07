@@ -95,4 +95,8 @@ public class UsuarioService {
         return usuarioExiste == null ? false : true;
 
     }
+
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

@@ -69,4 +69,10 @@ public class UsuarioController {
         return new ResponseEntity<Usuario>(service.login(request), HttpStatus.OK);
     }
 
+    @DeleteMapping("/")
+    public HttpEntity<? extends Object> deleteAll() {
+        service.deleteAll();
+        return new ResponseEntity<>("Todos usuários deletados com sucesso.", HttpStatus.OK);
+    }
+
 }
