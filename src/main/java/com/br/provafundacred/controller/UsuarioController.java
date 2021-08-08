@@ -75,7 +75,9 @@ public class UsuarioController {
             return new ResponseEntity<String>("Não autorizado", HttpStatus.UNAUTHORIZED);
         }
 
-       //usuarioService.updateLoginTime(usuario);
+        Usuario usuarioUpdate = usuarioService.findByEmailAndPassword(request.getEmail(), request.getPassword());
+
+        usuarioService.updateLoginTime(usuarioUpdate);
 
         System.out.println("TOKEN EXISTE =================");
         return new ResponseEntity<Usuario>(usuarioService.login(request), HttpStatus.OK);

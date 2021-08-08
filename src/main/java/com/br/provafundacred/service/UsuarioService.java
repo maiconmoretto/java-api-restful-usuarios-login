@@ -126,7 +126,10 @@ public class UsuarioService {
 
     public void updateLoginTime(Usuario usuario) {
         usuario.setLast_login(LocalDateTime.now());
+        repository.saveAndFlush(usuario);
+    }
 
-        repository.save(usuario);
+    public Usuario findByEmailAndPassword(String email, String senha) {
+        return repository.findByEmailSenha(email, senha);
     }
 }
