@@ -5,6 +5,7 @@ import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
 import com.br.provafundacred.request.LoginRequest;
+import com.br.provafundacred.service.TokenService;
 import com.br.provafundacred.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -18,7 +19,10 @@ import java.util.List;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService service;
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private PhoneRepository phoneRepository;
@@ -29,22 +33,18 @@ public class UsuarioController {
     //@ApiOperation(value = "It will return list of Usuario")
     @GetMapping
     public List<Usuario> listAll() {
-        return service.listAll();
+        return usuarioService.listAll();
     }
 
-    @GetMapping("/list-all-phones")
-    public List<Phone> listAllPhones() {
-        return phoneRepository.findAll();
-    }
 
    // @ApiOperation(value = "It will add new Usuario")
     @PostMapping
     public HttpEntity<? extends Object> create(@RequestBody Usuario request) throws Exception {
-        if(service.emailExist(request.getEmail())) {
+        if(usuarioService.emailExist(request.getEmail())) {
             return new ResponseEntity<String>("E-mail já existente.", HttpStatus.FORBIDDEN);
         }
 
-        return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(usuarioService.create(request), HttpStatus.CREATED);
     }
 
 
@@ -62,26 +62,28 @@ public class UsuarioController {
         usuario.setEmail(request.getEmail());
         usuario.setPassword(request.getPassword());
 
-        if(!service.emailExist(request.getEmail())) {
+        if(!usuarioService.emailExist(request.getEmail())) {
             return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.FORBIDDEN);
         }
 
-        if(!service.emailAndPasswordExist(usuario)) {
+        if(!usuarioService.emailAndPasswordExist(usuario)) {
             return new ResponseEntity<String>("Usuário e/ou senha inválidos.", HttpStatus.FORBIDDEN);
         }
 
-       if(!service.tokenExist(token)) {
+       if(!tokenService.tokenExist(token)) {
            System.out.println("TOKEN NAO EXISTE =================");
             return new ResponseEntity<String>("Não autorizado", HttpStatus.UNAUTHORIZED);
         }
 
+       //usuarioService.updateLoginTime(usuario);
+
         System.out.println("TOKEN EXISTE =================");
-        return new ResponseEntity<Usuario>(service.login(request), HttpStatus.OK);
+        return new ResponseEntity<Usuario>(usuarioService.login(request), HttpStatus.OK);
     }
 
     @DeleteMapping("/")
     public HttpEntity<? extends Object> deleteAll() {
-        service.deleteAll();
+        usuarioService.deleteAll();
         return new ResponseEntity<>("Todos usuários deletados com sucesso.", HttpStatus.OK);
     }
 

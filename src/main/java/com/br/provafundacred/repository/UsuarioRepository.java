@@ -12,6 +12,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("select u from Usuario u where u.email = ?1 and password = ?2")
     Usuario findByEmailSenha(String email, String password);
 
-    @Query("select u from Usuario u where u.token = ?1")
-    Usuario findByToken(String authorizationHeader);
 }

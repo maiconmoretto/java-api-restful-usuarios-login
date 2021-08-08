@@ -1,6 +1,7 @@
 package com.br.provafundacred.service;
 
 import com.br.provafundacred.entity.Phone;
+import com.br.provafundacred.entity.Token;
 import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
@@ -33,7 +34,10 @@ public class UsuarioService {
     @Autowired
     private PhoneService phoneService;
 
-    private static final Logger LOG =   LoggerFactory.getLogger(TypeData.ClassName.class);
+    @Autowired
+    private TokenService tokenService;
+
+    private static final Logger LOG = LoggerFactory.getLogger(TypeData.ClassName.class);
 
     public List<Usuario> listAll() {
         List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -60,18 +64,18 @@ public class UsuarioService {
     }
 
     public Usuario create(Usuario request) throws Exception {
-        MessageDigest m= MessageDigest.getInstance("MD5");
-        m.update(request.getPassword().getBytes(),0,request.getPassword().length());
+        MessageDigest m = MessageDigest.getInstance("MD5");
+        m.update(request.getPassword().getBytes(), 0, request.getPassword().length());
 
-        String password = new BigInteger(1,m.digest()).toString(16);
-        System.out.println("MD5: "+ password);
+        String password = new BigInteger(1, m.digest()).toString(16);
+        System.out.println("MD5: " + password);
 
 
-        MessageDigest mToken= MessageDigest.getInstance("MD5");
-        mToken.update(UUID.randomUUID().toString().getBytes(),0,request.getPassword().length());
-        String token = new BigInteger(1,mToken.digest()).toString(16);
-        System.out.println("token md5 : "+ token);
-       // Log.info("MD " + password);
+        MessageDigest mToken = MessageDigest.getInstance("MD5");
+        mToken.update(UUID.randomUUID().toString().getBytes(), 0, request.getPassword().length());
+        String tokenMd = new BigInteger(1, mToken.digest()).toString(16);
+        System.out.println("token md5 : " + tokenMd);
+        // Log.info("MD " + password);
 
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
@@ -89,7 +93,11 @@ public class UsuarioService {
             phoneService.create(phone);
         });
 
-        usuario.setToken(token);
+        Token token = new Token();
+        token.setToken(tokenMd);
+        token.setCreated(LocalDateTime.now());
+
+        usuario.setToken(tokenService.create(token));
         usuario.setPhone(phoneList);
         usuario.setPassword(password);
 
@@ -97,7 +105,7 @@ public class UsuarioService {
     }
 
     public Usuario login(LoginRequest request) {
-        return  repository.findByEmailSenha(request.getEmail(), request.getPassword());
+        return repository.findByEmailSenha(request.getEmail(), request.getPassword());
     }
 
 
@@ -107,7 +115,7 @@ public class UsuarioService {
     }
 
     public boolean emailExist(String email) {
-        Usuario usuarioExiste =  repository.findByEmail(email);
+        Usuario usuarioExiste = repository.findByEmail(email);
         return usuarioExiste == null ? false : true;
 
     }
@@ -116,7 +124,9 @@ public class UsuarioService {
         repository.deleteAll();
     }
 
-    public boolean tokenExist(String authorizationHeader) {
-        return repository.findByToken(authorizationHeader) == null ? false : true;
+    public void updateLoginTime(Usuario usuario) {
+        usuario.setLast_login(LocalDateTime.now());
+
+        repository.save(usuario);
     }
 }
