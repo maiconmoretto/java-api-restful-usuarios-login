@@ -34,14 +34,11 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    //@ApiOperation(value = "It will return list of Usuario")
     @GetMapping
     public List<Usuario> listAll() {
         return usuarioService.listAll();
     }
 
-
-    // @ApiOperation(value = "It will add new Usuario")
     @PostMapping
     public HttpEntity<? extends Object> create(@RequestBody UsuarioRequest request) throws Exception {
         if (usuarioService.emailExist(request.getEmail())) {
@@ -110,7 +107,6 @@ public class UsuarioController {
 
         return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
     }
-
 
     @DeleteMapping("/")
     public HttpEntity<? extends Object> deleteAll() {
