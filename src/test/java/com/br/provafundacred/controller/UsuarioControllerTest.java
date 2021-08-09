@@ -1,25 +1,35 @@
 package com.br.provafundacred.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.br.provafundacred.MyTestRequestFactory;
 import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.internal.jline.internal.Log;
+import jdk.nashorn.internal.parser.JSONParser;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,10 +47,10 @@ public class UsuarioControllerTest {
 
     @Test
     public void criarUsuarioSucesso() throws Exception {
-        MessageDigest m=MessageDigest.getInstance("MD5");
-        m.update("123456".getBytes(),0,"123456".length());
+        MessageDigest m = MessageDigest.getInstance("MD5");
+        m.update("123456".getBytes(), 0, "123456".length());
 
-        String password = new BigInteger(1,m.digest()).toString(16);
+        String password = new BigInteger(1, m.digest()).toString(16);
 
         Usuario usuario = new Usuario();
         usuario.setEmail("joao@joao.com");
@@ -120,10 +130,10 @@ public class UsuarioControllerTest {
 
     @Test
     public void loginSucesso() throws Exception {
-        MessageDigest m=MessageDigest.getInstance("MD5");
-        m.update("123456".getBytes(),0,"123456".length());
+        MessageDigest m = MessageDigest.getInstance("MD5");
+        m.update("123456".getBytes(), 0, "123456".length());
 
-        String password = new BigInteger(1,m.digest()).toString(16);
+        String password = new BigInteger(1, m.digest()).toString(16);
 
         Usuario usuario = new Usuario();
         usuario.setEmail("joao@joao.com");
@@ -236,4 +246,11 @@ public class UsuarioControllerTest {
                 .andExpect(status().isForbidden()
                 );
     }
+
+    @Test
+    public void perfilDeverRetornarUnauthorized() throws Exception {
+        mvc.perform(MyTestRequestFactory.myFactoryRequest("/perfil/7"))
+                .andExpect(status().isUnauthorized());
+    }
+
 }

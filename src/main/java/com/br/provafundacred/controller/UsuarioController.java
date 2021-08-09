@@ -72,7 +72,7 @@ public class UsuarioController {
         return new ResponseEntity<Usuario>(usuarioService.login(request), HttpStatus.OK);
     }
 
-    @PostMapping("/perfil/{id}")
+    @GetMapping("/perfil/{id}")
     public HttpEntity<? extends Object> perfil(@RequestHeader(value = "Accept") String acceptHeader,
                                                @RequestHeader(value = "Authorization") String authorizationHeader,
                                                @PathVariable Integer id) throws Exception {
