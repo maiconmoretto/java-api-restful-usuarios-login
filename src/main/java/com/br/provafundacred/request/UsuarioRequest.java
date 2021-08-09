@@ -1,4 +1,4 @@
-/*package com.br.provafundacred.request;
+package com.br.provafundacred.request;
 
 import com.br.provafundacred.entity.Phone;
 import lombok.Data;
@@ -12,13 +12,13 @@ import java.util.List;
 
 @Data
 public class UsuarioRequest {
-*//*
+
     private String name;
     private String email;
     private String password;
 
 
     @OneToMany(mappedBy = "usuario")
-    private List<Phone> phone;*//*
+    private List<Phone> phone;
 
-}*/
+}
