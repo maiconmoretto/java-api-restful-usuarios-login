@@ -3,18 +3,13 @@ package com.br.provafundacred.service;
 import com.br.provafundacred.entity.Phone;
 import com.br.provafundacred.entity.Token;
 import com.br.provafundacred.entity.Usuario;
-import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
 //import com.br.provafundacred.request.UsuarioRequest;
 import com.br.provafundacred.request.LoginRequest;
-import com.br.provafundacred.request.UsuarioUpdateRequest;
 import javassist.bytecode.stackmap.TypeData;
-import jdk.internal.jline.internal.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigInteger;
@@ -22,8 +17,8 @@ import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -131,5 +126,9 @@ public class UsuarioService {
 
     public Usuario findByEmailAndPassword(String email, String senha) {
         return repository.findByEmailSenha(email, senha);
+    }
+
+    public Optional<Usuario> findById(Integer id) {
+        return repository.findById(id);
     }
 }
