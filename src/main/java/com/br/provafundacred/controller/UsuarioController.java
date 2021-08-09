@@ -5,6 +5,7 @@ import com.br.provafundacred.entity.Usuario;
 import com.br.provafundacred.repository.PhoneRepository;
 import com.br.provafundacred.repository.UsuarioRepository;
 import com.br.provafundacred.request.LoginRequest;
+import com.br.provafundacred.request.UsuarioRequest;
 import com.br.provafundacred.service.TokenService;
 import com.br.provafundacred.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,17 @@ public class UsuarioController {
 
     // @ApiOperation(value = "It will add new Usuario")
     @PostMapping
-    public HttpEntity<? extends Object> create(@RequestBody Usuario request) throws Exception {
+    public HttpEntity<? extends Object> create(@RequestBody UsuarioRequest request) throws Exception {
         if (usuarioService.emailExist(request.getEmail())) {
             return new ResponseEntity<String>("E-mail já existente.", HttpStatus.FORBIDDEN);
         }
+        Usuario usuario = new Usuario();
+        usuario.setPhone(request.getPhone());
+        usuario.setName(request.getName());
+        usuario.setEmail(request.getEmail());
+        usuario.setPassword(request.getPassword());
 
-        return new ResponseEntity<>(usuarioService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(usuarioService.create(usuario), HttpStatus.CREATED);
     }
 
 
