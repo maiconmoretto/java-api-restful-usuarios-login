@@ -86,7 +86,7 @@ public class UsuarioController {
         try {
             usuario = usuarioService.findById(id);
 
-            if(usuario == null) {
+            if (usuario == null) {
                 return new ResponseEntity<String>("Não autorizado.", HttpStatus.FORBIDDEN);
             }
 
@@ -94,14 +94,13 @@ public class UsuarioController {
                 return new ResponseEntity<String>("Não autorizado.", HttpStatus.FORBIDDEN);
             }
 
-            if(LocalDateTime.now().minusMinutes(30).isBefore(usuario.get().getLast_login())) {
+            if (LocalDateTime.now().minusMinutes(30).isBefore(usuario.get().getLast_login())) {
                 return new ResponseEntity<String>("Sessão inválida.", HttpStatus.FORBIDDEN);
             }
 
         } catch (Exception e) {
             throw new Exception("Exception: " + e.getMessage());
         }
-
 
         return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
     }

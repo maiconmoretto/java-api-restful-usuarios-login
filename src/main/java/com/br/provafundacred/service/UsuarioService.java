@@ -63,14 +63,11 @@ public class UsuarioService {
         m.update(request.getPassword().getBytes(), 0, request.getPassword().length());
 
         String password = new BigInteger(1, m.digest()).toString(16);
-        System.out.println("MD5: " + password);
-
 
         MessageDigest mToken = MessageDigest.getInstance("MD5");
         mToken.update(UUID.randomUUID().toString().getBytes(), 0, request.getPassword().length());
         String tokenMd = new BigInteger(1, mToken.digest()).toString(16);
         System.out.println("token md5 : " + tokenMd);
-        // Log.info("MD " + password);
 
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
